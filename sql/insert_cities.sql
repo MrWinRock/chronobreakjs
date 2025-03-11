@@ -20,7 +20,6 @@ INSERT INTO cities (country_code, country_name, capital_city) VALUES
 ('AM', 'Armenia', 'Yerevan'),
 ('AO', 'Angola', 'Luanda'),
 ('AQ', 'Antarctica', 'N/A'),
-('TH','Thailand', 'Bangkok'),
 ('AR', 'Argentina', 'Buenos Aires'),
 ('AS', 'American Samoa', 'Pago Pago'),
 ('AT', 'Austria', 'Vienna'),
