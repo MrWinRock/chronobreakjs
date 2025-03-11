@@ -2,10 +2,10 @@ import React, { useState, useEffect } from "react";
 import { ScrollView, TouchableOpacity, Text, View } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import styles from "../styles/styles";
-import { citiesData } from "../data/cities";
 
 export default function AddClock({ navigation, closeModal, route }) {
   const [addedCities, setAddedCities] = useState([]);
+  const [availableCities, setAvailableCities] = useState([]);
   const { fromScreen } = route.params;
 
   useEffect(() => {
@@ -18,9 +18,20 @@ export default function AddClock({ navigation, closeModal, route }) {
     loadAddedCities();
   }, []);
 
-  const availableCities = citiesData.filter(
-    (city) => !addedCities.some((addedCity) => addedCity.city === city.city)
-  );
+  useEffect(() => {
+    const fetchCities = async () => {
+      try {
+        const response = await fetch('http://10.0.2.2/chronobreak-backend/api.php');
+        const data = await response.json();
+        setAvailableCities(data.filter(
+          (city) => !addedCities.some((addedCity) => addedCity.city === city.city)
+        ));
+      } catch (error) {
+        console.error('Error fetching cities:', error);
+      }
+    };
+    fetchCities();
+  }, [addedCities]);
 
   const addCity = async (city, country) => {
     const newCities = [...addedCities, { city, country }];
