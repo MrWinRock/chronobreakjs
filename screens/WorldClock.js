@@ -27,7 +27,10 @@ export default function WorldClock() {
   const [showDeleteButtons, setShowDeleteButtons] = useState(false);
 
   const loadCityTimes = useCallback(() => {
-    const times = getAllCitiesTime(cities);
+    const validCities = cities.filter(city => 
+      city && city.city && typeof city.city === 'string' && city.city.trim() !== ''
+    );
+    const times = getAllCitiesTime(validCities);
     setCityTimes(times);
   }, [cities]);
 
@@ -35,7 +38,12 @@ export default function WorldClock() {
     const loadCities = async () => {
       const storedCities = await AsyncStorage.getItem("addedCities");
       if (storedCities) {
-        setCities([...defaultCity, ...JSON.parse(storedCities)]);
+        const parsedCities = JSON.parse(storedCities);
+        const uniqueCities = [...defaultCity, ...parsedCities].filter(
+          (city, index, self) =>
+            index === self.findIndex((c) => c.city === city.city)
+        );
+        setCities(uniqueCities);
       }
     };
     if (isFocused) {
