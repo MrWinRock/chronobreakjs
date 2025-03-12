@@ -3,6 +3,7 @@ import { ScrollView, TouchableOpacity, Text, View, TextInput } from "react-nativ
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import styles from "../styles/styles";
 import { Ionicons } from "@expo/vector-icons";
+import axios from 'axios';
 
 export default function AddClock({ navigation, closeModal, route }) {
   const [addedCities, setAddedCities] = useState([]);
@@ -24,8 +25,8 @@ export default function AddClock({ navigation, closeModal, route }) {
   useEffect(() => {
     const fetchCities = async () => {
       try {
-        const response = await fetch('http://10.0.2.2/chronobreak-backend/api.php');
-        const data = await response.json();
+        const response = await axios.get('http://10.0.2.2/chronobreak-backend/api.php');
+        const data = response.data;
         setAvailableCities(data.filter(
           (city) => !addedCities.some((addedCity) => addedCity.city === city.city)
         ));

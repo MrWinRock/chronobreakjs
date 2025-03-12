@@ -1,5 +1,5 @@
 export const defaultCity = [
-   { city: "Bangkok", country: "TH", name: "Thailand" }
+  { city: "Bangkok", country: "TH", name: "Thailand" }
 ];
 
 export const citiesData = [
